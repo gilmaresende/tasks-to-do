@@ -9,9 +9,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import static com.condelar.todo.app.tools.ToolBase.isNull;
 
 @RestController
 @RequestMapping("/login")
@@ -21,18 +24,13 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private LoginService service;
-
-    @Autowired
     private TokenService tokenService;
 
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @GetMapping
-    public List<Login> getAll() {
-        return service.getAll();
-    }
+    @Autowired
+    private LoginService service;
 
     @PostMapping("/logar")
     public String logar(@RequestBody LoginDTO dto) {
@@ -47,17 +45,19 @@ public class LoginController {
     }
 
     @PostMapping("/save")
-    public Login save(@RequestBody LoginDTO dto) {
-
-        dto.setPassword(encoder.encode(dto.getLogin()));
-
-        Login ob = new Login();
-        ob.setLogin(dto.getLogin());
-        ob.setPassword(dto.getPassword());
-
+    public LoginDTO save(@RequestBody LoginDTO dto) {
+        Login ob = null;
+        if (!isNull(dto.getId())) {
+            ob = service.get(dto.getId());
+        } else {
+            ob = service.newOb();
+        }
+        ob = service.toOb(dto, ob);
+        ob.setPassword(encoder.encode(ob.getPassword()));
         ob = service.save(ob);
-
-        return ob;
+        dto = service.toDTO(ob);
+        return dto;
     }
+
 
 }

@@ -3,12 +3,13 @@ package com.condelar.todo.struct;
 import com.condelar.todo.app.entity.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class BaseService<Respository extends JpaRepository, Entidade extends BaseEntidade,
+public abstract class BaseService<Respository extends MongoRepository, Entidade extends BaseEntidade,
         DTO extends BaseDTO> {
 
     @Autowired

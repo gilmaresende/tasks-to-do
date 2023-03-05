@@ -1,9 +1,9 @@
 package com.condelar.todo.app.entity;
 
 import com.condelar.todo.struct.BaseEntidade;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,26 +14,18 @@ import java.util.Collection;
 import java.util.List;
 
 @Data
-@Entity
+@Document
 public class Login extends BaseEntidade implements UserDetails {
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Long id;
+    private String id;
 
-    @Column(name = "login", length = 50, nullable = false, unique = true)
     private String login;
 
-    @Column(name = "password", length = 100, nullable = false)
     private String password;
 
-    @Column(name = "data_cadastro", nullable = false)
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataCadastro;
 
-    @Version
-    @Column(name = "data_atualizacao",  nullable = false)
     private LocalDateTime dataAtualizacao;
 
     @Override
@@ -41,8 +33,7 @@ public class Login extends BaseEntidade implements UserDetails {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public Login(){
-        System.out.println("build");
+    public Login() {
     }
 
     @Override

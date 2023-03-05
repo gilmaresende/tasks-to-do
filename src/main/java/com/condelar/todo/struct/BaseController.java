@@ -1,14 +1,14 @@
 package com.condelar.todo.struct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import static com.condelar.todo.app.tools.ToolBase.isNull;
 
 public class BaseController<Entidade extends BaseEntidade,
-        Repository extends JpaRepository,
+        Repository extends MongoRepository,
         DTO extends BaseDTO,
         Service extends BaseService<Repository, Entidade, DTO>> {
 

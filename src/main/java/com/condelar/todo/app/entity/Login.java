@@ -22,7 +22,7 @@ public class Login extends BaseEntidade implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @Column(name = "login", length = 50, nullable = false)
+    @Column(name = "login", length = 50, nullable = false, unique = true)
     private String login;
 
     @Column(name = "password", length = 100, nullable = false)
@@ -39,6 +39,10 @@ public class Login extends BaseEntidade implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+
+    public Login(){
+        System.out.println("build");
     }
 
     @Override

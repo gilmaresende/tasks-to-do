@@ -5,6 +5,7 @@ import com.condelar.todo.app.services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -14,14 +15,18 @@ public class Start {
     @Autowired
     LoginService loginService;
 
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Bean
-    public void init(){
+    public void init() {
         Login l = new Login();
         l.setDataCadastro(LocalDate.now());
         l.setLogin("gflr");
-        l.setPassword("123");
+        l.setPassword(encoder.encode("123"));
 
-       l = loginService.save(l);
+        l = loginService.save(l);
 
         System.out.println(l);
     }

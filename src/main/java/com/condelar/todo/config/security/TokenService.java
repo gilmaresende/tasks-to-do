@@ -12,13 +12,13 @@ import java.time.ZoneOffset;
 public class TokenService {
 
     public String gerarToken(Login usuario) {
-        return JWT.create().withIssuer("home1").withSubject(usuario.getUsername()).withClaim("id", usuario.getId())
+        return JWT.create().withIssuer("login").withSubject(usuario.getUsername()).withClaim("id", usuario.getId())
                 .withExpiresAt(LocalDateTime.now().plusMinutes(10L).toInstant(ZoneOffset.of("-03:00")))
                 .sign(Algorithm.HMAC256("secreta"));
     }
 
     public String getSubject(String token) {
-        return JWT.require(Algorithm.HMAC256("secreta")).withIssuer("home1").build().verify(token).getSubject();
+        return JWT.require(Algorithm.HMAC256("secreta")).withIssuer("login").build().verify(token).getSubject();
     }
 
 }
